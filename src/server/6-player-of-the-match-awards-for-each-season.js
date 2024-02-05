@@ -26,7 +26,7 @@ const playerOfTheMatchAwardsForEachSeason = (matches) => {
     players_for_each_season[season] = Object.fromEntries(
       Object.entries(players_for_each_season[season])
         .sort((a, b) => b[1] - a[1])
-        .slice(0, 1), // Sort in descending order of count
+        .slice(0, 1)
     );
   }
 
