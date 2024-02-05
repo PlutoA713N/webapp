@@ -2,17 +2,19 @@ const fs = require("fs");
 const matches = require("../data/matches.json");
 
 const matchesPerYear = (matches) => {
-  const matchesPlayedPerYear = {};
   const outputFilePath = "../public/output/matchesPerYear.json";
 
-  for (const match of matches) {
-    matchesPlayedPerYear[match.season] = matchesPlayedPerYear[match.season]
-      ? (matchesPlayedPerYear[match.season] += 1)
-      : 1;
-  }
+  let resultMatchesObject = matches.reduce((accu, matches) => {
+    if (matches.season in accu) {
+      accu[matches.season] += 1;
+    } else {
+      accu[matches.season] = 1;
+    }
+    return accu;
+  }, {});
 
   const writeStream = fs.createWriteStream(outputFilePath);
-  writeStream.write(JSON.stringify(matchesPlayedPerYear, null, 2));
+  writeStream.write(JSON.stringify(resultMatchesObject, null, 2));
   writeStream.end();
 
   writeStream.on("finish", () => {
