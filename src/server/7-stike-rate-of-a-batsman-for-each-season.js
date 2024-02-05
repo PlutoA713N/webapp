@@ -2,7 +2,7 @@ const fs = require("fs");
 const deliveriesData = require("../data/deliveries.json");
 const matchesData = require("../data/matches.json");
 
-const strikeRateOfABatsmanForEachSeason = (batsman) => {
+const strikeRateOfABatsmanForEachSeason = () => {
   const outputFilePath =
     "../public/output/strikeRateOfABatsmanForEachSeason.json";
 
@@ -59,4 +59,4 @@ const strikeRateOfABatsmanForEachSeason = (batsman) => {
   });
 };
 
-strikeRateOfABatsmanForEachSeason("V Kohli");
+strikeRateOfABatsmanForEachSeason();
