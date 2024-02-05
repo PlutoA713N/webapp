@@ -8,8 +8,8 @@ const extraRunsConceededPerTeamInTheYear = (matches, year) => {
     "../public/output/extraRunsConceededPerTeamInTheYear.json";
 
   const totalIds = matches
-  .filter((match) => +match["season"] === year)
-  .map((match) => match["id"]);
+    .filter((match) => +match["season"] === year)
+    .map((match) => match["id"]);
 
   deliveries.forEach((delivery) => {
     const matchId = delivery["match_id"];

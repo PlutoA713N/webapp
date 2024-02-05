@@ -6,7 +6,7 @@ const bowlerWithBestEconomy = (matches) => {
   const outputFilePath = "../public/output/bowlerWithBestEconomy.json";
 
   const superOverDeliveries = deliveries.filter(
-    (delivery) => delivery.is_super_over === "1"
+    (delivery) => delivery.is_super_over === "1",
   );
 
   const newObject = superOverDeliveries.reduce((acc, delivery) => {
@@ -25,7 +25,7 @@ const bowlerWithBestEconomy = (matches) => {
   });
 
   const sortedEntries = Object.entries(newObject).sort(
-    (entry1, entry2) => entry1[1].economy - entry2[1].economy
+    (entry1, entry2) => entry1[1].economy - entry2[1].economy,
   );
 
   const finalOutput = [sortedEntries[0]];

@@ -3,7 +3,8 @@ const matches = require("../data/matches.json");
 const deliveries = require("../data/deliveries.json");
 
 const top10EconomicalBowlersInTheYear = (matches, year) => {
-  const outputFilePath = "../public/output/top10EconomicalBowlersInTheYear.json";
+  const outputFilePath =
+    "../public/output/top10EconomicalBowlersInTheYear.json";
 
   const totalIds = matches
     .filter((match) => +match.season === year)
@@ -28,11 +29,11 @@ const top10EconomicalBowlersInTheYear = (matches, year) => {
       const balls = value.balls;
       const economy = (runs / balls) * 6;
       return [key, economy];
-    })
+    }),
   );
 
   const sortedBowlers = Object.keys(economyOfBowlers).sort(
-    (a, b) => economyOfBowlers[a] - economyOfBowlers[b]
+    (a, b) => economyOfBowlers[a] - economyOfBowlers[b],
   );
 
   const top10Bowlers = sortedBowlers.slice(0, 10);

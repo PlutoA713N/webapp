@@ -5,17 +5,16 @@ const timesEachTeamWontheTossAndWonTheMatch = (matches) => {
   const outputFilePath =
     "../public/output/timesEachTeamWontheTossAndWonTheMatch.json";
 
-    wonTossAndMatch = matches.reduce((accu,match)=>{
-      if (match.toss_winner === match.winner) {
-          if (match.toss_winner in accu) {
-              accu[match.toss_winner] += 1;
-          } else {
-              accu[match.toss_winner] = 1;
-          }
+  wonTossAndMatch = matches.reduce((accu, match) => {
+    if (match.toss_winner === match.winner) {
+      if (match.toss_winner in accu) {
+        accu[match.toss_winner] += 1;
+      } else {
+        accu[match.toss_winner] = 1;
       }
-      return accu;
-  },{})
-
+    }
+    return accu;
+  }, {});
 
   console.log(output);
 
