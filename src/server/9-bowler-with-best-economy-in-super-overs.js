@@ -5,37 +5,30 @@ const deliveries = require("../data/deliveries.json");
 const bowlerWithBestEconomy = (matches) => {
   const outputFilePath = "../public/output/bowlerWithBestEconomy.json";
 
-  let newObject = {};
+  const superOverDeliveries = deliveries.filter(
+    (delivery) => delivery.is_super_over === "1"
+  );
 
-  for (let object of deliveries) {
-    let isSuperOver = object.is_super_over;
-    let bowler = object.bowler;
-    let totalRuns = object.total_runs;
+  const newObject = superOverDeliveries.reduce((acc, delivery) => {
+    const bowler = delivery.bowler;
+    const totalRuns = parseInt(delivery.total_runs);
 
-    if (isSuperOver == 1) {
-      if (newObject.hasOwnProperty(bowler)) {
-        newObject[bowler].runs += parseInt(totalRuns);
-        newObject[bowler].balls += 1;
-      } else {
-        newObject[bowler] = {
-          runs: parseInt(totalRuns),
-          balls: 1,
-        };
-      }
-    }
-  }
+    acc[bowler] = acc[bowler] || { runs: 0, balls: 0 };
+    acc[bowler].runs += totalRuns;
+    acc[bowler].balls += 1;
 
-  for (let key in newObject) {
-    newObject[key].economy = newObject[key].runs / (newObject[key].balls / 6);
-  }
+    return acc;
+  }, {});
 
-  let keysArray = Object.keys(newObject);
-
-  let sortedKeys = keysArray.sort(function (key1, key2) {
-    return newObject[key1].economy - newObject[key2].economy;
+  Object.entries(newObject).forEach(([key, value]) => {
+    value.economy = value.runs / (value.balls / 6);
   });
 
-  let finalOutput = [sortedKeys[0], newObject[sortedKeys[0]]];
+  const sortedEntries = Object.entries(newObject).sort(
+    (entry1, entry2) => entry1[1].economy - entry2[1].economy
+  );
+
+  const finalOutput = [sortedEntries[0]];
 
   const writeStream = fs.createWriteStream(outputFilePath);
   writeStream.write(JSON.stringify(finalOutput, null, 2));

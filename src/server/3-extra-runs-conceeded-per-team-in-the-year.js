@@ -7,28 +7,19 @@ const extraRunsConceededPerTeamInTheYear = (matches, year) => {
   const outputFilePath =
     "../public/output/extraRunsConceededPerTeamInTheYear.json";
 
-  let totalIds = [];
+  const totalIds = matches
+  .filter((match) => +match["season"] === year)
+  .map((match) => match["id"]);
 
-  for (const match of matches) {
-    const seasonYear = match["season"];
-    const id = match["id"];
-
-    if (+seasonYear === year) {
-      totalIds.push(id);
-    }
-  }
-
-  for (const delivery of deliveries) {
+  deliveries.forEach((delivery) => {
     const matchId = delivery["match_id"];
     const bowling_team = delivery["bowling_team"];
-    const extra_runs = delivery["extra_runs"];
+    const extra_runs = +delivery["extra_runs"];
 
     if (totalIds.includes(matchId)) {
-      output[bowling_team]
-        ? (output[bowling_team] += +extra_runs)
-        : (output[bowling_team] = +extra_runs);
+      output[bowling_team] = (output[bowling_team] || 0) + extra_runs;
     }
-  }
+  });
 
   const writeStream = fs.createWriteStream(outputFilePath);
   writeStream.write(JSON.stringify(output, null, 2));

@@ -2,24 +2,22 @@ const fs = require("fs");
 const matches = require("../data/matches.json");
 
 const matchesWonPerTeamPerYear = (matches) => {
-  const output = {};
   const outputFilePath = "../public/output/matchesWonPerTeamPerYear.json";
 
-  for (const match of matches) {
-    const season = match["season"];
-    const winner = match["winner"];
-
-    !output[season]
-      ? (output[season] = {})
-      : winner !== undefined && winner !== ""
-        ? (output[season][winner] = output[season][winner]
-            ? output[season][winner] + 1
-            : 1)
-        : null;
-  }
+  let matchesWonPerTeam = matches.reduce((accu, match) => {
+    if (accu[match.season] === undefined) {
+      accu[match.season] = { [match.winner]: 0 };
+    }
+    if (match.winner in accu[match.season]) {
+      accu[match.season][match.winner] += 1;
+    } else {
+      accu[match.season][match.winner] = 1;
+    }
+    return accu;
+  }, {});
 
   const writeStream = fs.createWriteStream(outputFilePath);
-  writeStream.write(JSON.stringify(output, null, 2));
+  writeStream.write(JSON.stringify(matchesWonPerTeam, null, 2));
   writeStream.end();
 
   writeStream.on("finish", () => {

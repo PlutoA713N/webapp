@@ -3,53 +3,39 @@ const matches = require("../data/matches.json");
 const deliveries = require("../data/deliveries.json");
 
 const top10EconomicalBowlersInTheYear = (matches, year) => {
-  let output = {};
-  output[year] = {};
-  const outputFilePath =
-    "../public/output/top10EconomicalBowlersInTheYear.json";
+  const outputFilePath = "../public/output/top10EconomicalBowlersInTheYear.json";
 
-  let totalIds = [];
+  const totalIds = matches
+    .filter((match) => +match.season === year)
+    .map((match) => match.id);
 
-  for (const match of matches) {
-    const seasonYear = match["season"];
-    const id = match["id"];
+  const obj = deliveries.reduce((acc, delivery) => {
+    if (totalIds.includes(delivery.match_id)) {
+      const bowler = delivery.bowler;
+      const runs = parseInt(delivery.total_runs);
+      const balls = 1;
 
-    if (+seasonYear === year) {
-      totalIds.push(id);
+      acc[bowler] = acc[bowler] || { run: 0, balls: 0 };
+      acc[bowler].run += runs;
+      acc[bowler].balls += balls;
     }
-  }
+    return acc;
+  }, {});
 
-  const obj = {};
-  for (let i = 0; i < deliveries.length; i++) {
-    if (totalIds.includes(deliveries[i].match_id)) {
-      if (obj[deliveries[i].bowler]) {
-        (obj[deliveries[i].bowler].run += parseInt(deliveries[i].total_runs)),
-          (obj[deliveries[i].bowler].balls += 1);
-      } else {
-        obj[deliveries[i].bowler] = {
-          run: parseInt(deliveries[i].total_runs),
-          balls: 1,
-        };
-      }
-    }
-  }
-  const economyOfBowlers = {};
+  const economyOfBowlers = Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => {
+      const runs = value.run;
+      const balls = value.balls;
+      const economy = (runs / balls) * 6;
+      return [key, economy];
+    })
+  );
 
-  for (const objects in obj) {
-    let runs = obj[objects].run;
-    let balls = obj[objects].balls;
-
-    let economy = (runs / balls) * 6;
-
-    economyOfBowlers[objects] = economy;
-  }
-
-  const sortedBowlers = Object.keys(economyOfBowlers).sort((a, b) => {
-    return economyOfBowlers[a] - economyOfBowlers[b];
-  });
+  const sortedBowlers = Object.keys(economyOfBowlers).sort(
+    (a, b) => economyOfBowlers[a] - economyOfBowlers[b]
+  );
 
   const top10Bowlers = sortedBowlers.slice(0, 10);
-  console.log(top10Bowlers);
 
   const writeStream = fs.createWriteStream(outputFilePath);
   writeStream.write(JSON.stringify(top10Bowlers, null, 2));

@@ -2,23 +2,25 @@ const fs = require("fs");
 const matches = require("../data/matches.json");
 
 const timesEachTeamWontheTossAndWonTheMatch = (matches) => {
-  let output = {};
   const outputFilePath =
     "../public/output/timesEachTeamWontheTossAndWonTheMatch.json";
 
-  for (const match of matches) {
-    const toss_winner = match["toss_winner"];
-    const winner = match["winner"];
+    wonTossAndMatch = matches.reduce((accu,match)=>{
+      if (match.toss_winner === match.winner) {
+          if (match.toss_winner in accu) {
+              accu[match.toss_winner] += 1;
+          } else {
+              accu[match.toss_winner] = 1;
+          }
+      }
+      return accu;
+  },{})
 
-    if (winner != "" && toss_winner === winner) {
-      output[winner] = output[winner] ? (output[winner] += 1) : 1;
-    }
-  }
 
   console.log(output);
 
   const writeStream = fs.createWriteStream(outputFilePath);
-  writeStream.write(JSON.stringify(output, null, 2));
+  writeStream.write(JSON.stringify(wonTossAndMatch, null, 2));
   writeStream.end();
 
   writeStream.on("finish", () => {
