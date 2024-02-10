@@ -5,30 +5,34 @@ const timesEachTeamWontheTossAndWonTheMatch = (matches) => {
   const outputFilePath =
     "../public/output/timesEachTeamWontheTossAndWonTheMatch.json";
 
-  wonTossAndMatch = matches.reduce((accu, match) => {
-    if (match.toss_winner === match.winner) {
-      if (match.toss_winner in accu) {
-        accu[match.toss_winner] += 1;
-      } else {
-        accu[match.toss_winner] = 1;
+  try {
+    const wonTossAndMatch = matches.reduce((accu, match) => {
+      if (match.toss_winner === match.winner) {
+        if (match.toss_winner in accu) {
+          accu[match.toss_winner] += 1;
+        } else {
+          accu[match.toss_winner] = 1;
+        }
       }
-    }
-    return accu;
-  }, {});
+      return accu;
+    }, {});
 
-  console.log(output);
+    const writeStream = fs.createWriteStream(outputFilePath);
+    writeStream.write(JSON.stringify(wonTossAndMatch, null, 2));
+    writeStream.end();
 
-  const writeStream = fs.createWriteStream(outputFilePath);
-  writeStream.write(JSON.stringify(wonTossAndMatch, null, 2));
-  writeStream.end();
+    writeStream.on("finish", () => {
+      console.log("Output file created successfully");
+    });
 
-  writeStream.on("finish", () => {
-    console.log("Output file created successfully");
-  });
-
-  writeStream.on("error", (err) => {
-    console.log("Failed to write data:", err);
-  });
+    writeStream.on("error", (err) => {
+      throw err; // Pass the error to the catch block
+    });
+  } catch (error) {
+    console.log("An error occurred during processing:", error.message);
+  } finally {
+    console.log("Processing completed.");
+  }
 };
 
 timesEachTeamWontheTossAndWonTheMatch(matches);

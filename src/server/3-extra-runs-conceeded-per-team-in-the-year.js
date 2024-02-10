@@ -7,31 +7,37 @@ const extraRunsConceededPerTeamInTheYear = (matches, year) => {
   const outputFilePath =
     "../public/output/extraRunsConceededPerTeamInTheYear.json";
 
-  const totalIds = matches
-    .filter((match) => +match["season"] === year)
-    .map((match) => match["id"]);
+  try {
+    const totalIds = matches
+      .filter((match) => +match["season"] === year)
+      .map((match) => match["id"]);
 
-  deliveries.forEach((delivery) => {
-    const matchId = delivery["match_id"];
-    const bowling_team = delivery["bowling_team"];
-    const extra_runs = +delivery["extra_runs"];
+    deliveries.forEach((delivery) => {
+      const matchId = delivery["match_id"];
+      const bowling_team = delivery["bowling_team"];
+      const extra_runs = +delivery["extra_runs"];
 
-    if (totalIds.includes(matchId)) {
-      output[bowling_team] = (output[bowling_team] || 0) + extra_runs;
-    }
-  });
+      if (totalIds.includes(matchId)) {
+        output[bowling_team] = (output[bowling_team] || 0) + extra_runs;
+      }
+    });
 
-  const writeStream = fs.createWriteStream(outputFilePath);
-  writeStream.write(JSON.stringify(output, null, 2));
-  writeStream.end();
+    const writeStream = fs.createWriteStream(outputFilePath);
+    writeStream.write(JSON.stringify(output, null, 2));
+    writeStream.end();
 
-  writeStream.on("finish", () => {
-    console.log("Output file created successfully");
-  });
+    writeStream.on("finish", () => {
+      console.log("Output file created successfully");
+    });
 
-  writeStream.on("error", (err) => {
-    console.log("Failed to write data:", err);
-  });
+    writeStream.on("error", (err) => {
+      throw err; // Pass the error to the catch block
+    });
+  } catch (error) {
+    console.log("An error occurred during processing:", error.message);
+  } finally {
+    console.log("Processing completed.");
+  }
 };
 
 extraRunsConceededPerTeamInTheYear(matches, 2016);
