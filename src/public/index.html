@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Client web application</title> 
+       <link href="style.css" rel="stylesheet" > 
+       <script src="https://code.highcharts.com/highcharts.js"></script>
+    </head>
+    <body>
+        <h1>Client web app</h1>
+        <a href='#' id="fetchLink">Fetch Data</a>
+        <div id="donutChartContainer" style="width: 80%; height: 400px; margin: 0 auto;"></div>        
+        <script>
+            const fetchData = async ()  => {
+                try {
+                    const response = await fetch('http://127.0.0.1:8080/timesEachTeamWontheTossAndWonTheMatch.json', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`)
+                    }
+
+                    const data = await response.json();
+                    console.log('Data is shown when I click on URL:', data);      
+
+                    Highcharts.chart('donutChartContainer', {
+                        chart: {
+                            type: 'pie',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45
+                            }
+                        },
+                        title: {
+                            text: 'Number of times WonTheToss&Match'
+                        },
+                        plotOptions: {
+                            pie: {
+                                innerSize: 100,
+                                depth: 45
+                            }
+                        },
+                        series: [{
+                            name: 'Wins',
+                            data: Object.entries(data).map(([team, value]) => ({ name: team, y: value })),
+                        }]
+                    });
+
+                } catch (error) {
+                    console.error('Fetch error:', error)
+                }
+            }
+
+            const fetchLink = document.getElementById('fetchLink')
+            fetchLink.addEventListener('click', (event) => {
+                event.preventDefault()
+                fetchData()
+            })
+        </script>
+    </body>
+</html>
