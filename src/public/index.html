@@ -17,6 +17,7 @@
             <a href="#" id="Chart_4">top10EconomicalBowlersInTheYear</a>
             <a href='#' id="Chart_5">timesEachTeamWontheTossAndWonTheMatch</a>
             <a href='#' id="Chart_6">playerOfTheMatchAwardsForEachSeason</a>
+            <a href='#' id="Chart_7">strikeRateOfABatsmanForEachSeason</a>
             <a href='#' id="Chart_8">highestTimesPlayerDismissedByAnotherPlayer</a>
             <a href='#' id="Chart_9">bowlerWithBestEconomy</a>
             </ul>
@@ -262,6 +263,38 @@
         });
 
     }
+
+    const strikeRateOfABatsmanForEachSeason = (data ) => {
+        const years = Object.keys(data["V Kohli"]);
+        const strikeRates = Object.values(data["V Kohli"]).map(parseFloat);
+
+  Highcharts.chart('container', {
+    chart: {
+      type: 'line'
+    },
+    title: {
+      text: 'Strike Rate of a Batsman for Each Season'
+    },
+    xAxis: {
+      categories: years,
+      title: {
+        text: 'Year'
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Strike Rate'
+      }
+    },
+    series: [{
+      name: 'V Kohli',
+      data: strikeRates,
+      color: 'lightgreen'
+    }]
+  });
+
+    }
+
 
 
 const bowlerWithBestEconomy = (bowlerData ) => {
