@@ -29,10 +29,15 @@ const bowlerWithBestEconomy = (matches) => {
       (entry1, entry2) => entry1[1].economy - entry2[1].economy
     );
 
-    const finalOutput = [sortedEntries[0]];
+
+    const topBowler = sortedEntries[0];
+
+    const bestBowlerInObj = {
+      [topBowler[0]] : topBowler[1],
+    }
 
     const writeStream = fs.createWriteStream(outputFilePath);
-    writeStream.write(JSON.stringify(finalOutput, null, 2));
+    writeStream.write(JSON.stringify(bestBowlerInObj, null, 2));
     writeStream.end();
 
     writeStream.on("finish", () => {
