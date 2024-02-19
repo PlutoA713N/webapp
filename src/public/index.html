@@ -11,11 +11,14 @@
         <h1>Client web app</h1>
 
         <ul id="linklist">
-            <a href='#' id="Chart_8">timesEachTeamWontheTossAndWonTheMatch</a>
             <a href='#' id="Chart_1">matchesPerYear</a>
             <a href='#' id="Chart_2">matchesWonPerTeamPerYear</a>  
             <a href="#" id="Chart_3">extraRunsConceededPerTeamInTheYear</a>
             <a href="#" id="Chart_4">top10EconomicalBowlersInTheYear</a>
+            <a href='#' id="Chart_5">timesEachTeamWontheTossAndWonTheMatch</a>
+            <a href='#' id="Chart_6">playerOfTheMatchAwardsForEachSeason</a>
+            <a href='#' id="Chart_8">highestTimesPlayerDismissedByAnotherPlayer</a>
+
             </ul>
        
         <div id="container" style="width: 80%; height: 400px; margin: 0 auto;"></div>        
@@ -139,30 +142,34 @@
             const top10EconomicalBowlersInTheYear = (data) => {
                 Highcharts.chart('container', {
                 chart: {
-                    type: 'bar',
+                    type: 'bar'
                 },
                 title: {
-                    text: 'Top 10 Economical Bowlers in 2015',
+                    text: 'Top 10 Economical Bowlers in the Year'
                 },
                 xAxis: {
-                    categories: data,
+                    categories: Object.keys(data),
+                    title: {
+                        text: 'Bowler'
+                    }
                 },
                 yAxis: {
                     title: {
-                        text: 'Players',
-                    },
+                        text: 'Economy Rate'
+                    }
                 },
                 plotOptions: {
                     series: {
                         colorByPoint: true,
-                        colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'],
+                        colors: ['#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#FFC107', '#607D8B', '#E91E63', '#795548', '#00BCD4', '#FF5722']
                     }
                 },
                 series: [{
-                    name: 'Players',
-                    data: data.map(player => ({ name: player, y: 1 })),
-                }],
+                    name: 'Economy Rate',
+                    data: Object.values(data)
+                }]
             });
+
             }
 
             const timesEachTeamWontheTossAndWonTheMatch = (data)  => {
@@ -190,6 +197,71 @@
                     });
             }
 
+
+            const playerOfTheMatchAwardsForEachSeason = (data) => {
+                const seasons = Object.keys(data);
+
+
+            Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Player of the Match Awards Each Season'
+            },
+            xAxis: {
+                categories: Object.keys(data),
+                title: {
+                    text: 'Year'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Number of Player of the Match Awards'
+                }
+            },
+            series: Object.keys(data).map(year => ({
+                name: year,
+                data: Object.entries(data[year]).map(([playerName, awards]) => ({
+                    name: playerName,
+                    y: awards
+                }))
+            }))
+        });
+    }
+
+
+    const highestTimesPlayerDismissedByAnotherPlayer = (data) => {
+        const batsman = data['maxDismissed']
+        const bowler = data['Bowler']
+        const maxDismissals = data['maxDismissals']
+
+        console.log(batsman, bowler, maxDismissals)
+
+        console.log(batsman, bowler, maxDismissals)
+
+        Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Highest Number of Times One Player Dismissed By Another Player'
+        },
+        xAxis: {
+            categories: [`${batsman} (Batsman)`, `${bowler} (Bowler)`]
+        },
+        yAxis: {
+            title: {
+                text: 'Number of Dismissals'
+            }
+        },
+        series: [{
+            name: `${bowler} (Bowler)`,
+            data: [{ y: maxDismissals, color: '#FFD700' }] 
+        }]
+        });
+
+    }
         </script>
     </body>
 </html>
