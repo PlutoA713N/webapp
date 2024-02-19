@@ -18,7 +18,7 @@
             <a href='#' id="Chart_5">timesEachTeamWontheTossAndWonTheMatch</a>
             <a href='#' id="Chart_6">playerOfTheMatchAwardsForEachSeason</a>
             <a href='#' id="Chart_8">highestTimesPlayerDismissedByAnotherPlayer</a>
-
+            <a href='#' id="Chart_9">bowlerWithBestEconomy</a>
             </ul>
        
         <div id="container" style="width: 80%; height: 400px; margin: 0 auto;"></div>        
@@ -262,6 +262,40 @@
         });
 
     }
+
+
+const bowlerWithBestEconomy = (bowlerData ) => {
+    const bowlerName = Object.keys(bowlerData)[0];
+    const bowlerStats = bowlerData[bowlerName];
+
+
+    console.log(bowlerData, bowlerName, bowlerStats)
+
+    Highcharts.chart('container', {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: `Bowler Stats - ${bowlerName}`
+        },
+        xAxis: {
+            categories: Object.keys(bowlerStats),
+            title: {
+                text: 'Stat'
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Value'
+            }
+        },
+        series: [{
+            name: bowlerName,
+            data: Object.values(bowlerStats)
+        }]
+    });
+}
+    
         </script>
     </body>
 </html>
