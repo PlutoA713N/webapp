@@ -27,16 +27,20 @@ const top10EconomicalBowlersInTheYear = (matches, year) => {
       Object.entries(obj).map(([key, value]) => {
         const runs = value.run;
         const balls = value.balls;
-        const economy = (runs / balls) * 6;
+        const economy = +((runs / balls) * 6).toFixed(2);
         return [key, economy];
       })
     );
 
-    const sortedBowlers = Object.keys(economyOfBowlers).sort(
-      (a, b) => economyOfBowlers[a] - economyOfBowlers[b]
-    );
+    const bowlersArray = Object.entries(economyOfBowlers)
+    
+    const sortedBowlersArray = bowlersArray.sort((bowlerA, bowlerB) => {
+      const economyA = bowlerA[1]
+      const economyB = bowlerB[1]
+      return economyA - economyB
+    });
 
-    const top10Bowlers = sortedBowlers.slice(0, 10);
+    const top10Bowlers = Object.fromEntries(sortedBowlersArray.slice(0, 10));
 
     const writeStream = fs.createWriteStream(outputFilePath);
     writeStream.write(JSON.stringify(top10Bowlers, null, 2));
