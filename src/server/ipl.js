@@ -258,7 +258,7 @@ const timesEachTeamWontheTossAndWonTheMatch = (matches) => {
 
 
 
-const strikeRateOfABatsmanForEachSeason = (batsman) => {
+const strikeRateOfABatsmanForEachSeason = (batsman, deliveriesData, matchesData) => {
     const outputFilePath =
       "/home/chandu/Documents/js-ipl-data-project/src/public/output/strikeRateOfABatsmanForEachSeason.json";
   
