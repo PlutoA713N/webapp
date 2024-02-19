@@ -2,46 +2,51 @@ const fs = require("fs");
 const deliveriesData = require("../data/deliveries.json");
 const matchesData = require("../data/matches.json");
 
-const strikeRateOfABatsmanForEachSeason = () => {
+const strikeRateOfABatsmanForEachSeason = (batsman) => {
   const outputFilePath =
     "../public/output/strikeRateOfABatsmanForEachSeason.json";
 
   try {
-    const idsObject = matchesData.reduce((acc, curr) => {
-      acc[curr.season] = acc[curr.season] || [];
-      acc[curr.season].push(curr.id);
-      return acc;
-    }, {});
+    const calculateStrikeRateForSeason = (season) => {
+      const batsmanDeliveries = deliveriesData.filter(
+        (delivery) =>
+          delivery.batsman === batsman &&
+          matchesData.find(
+            (match) =>
+              match.id === delivery.match_id && match.season === season,
+          ),
+      );
 
-    const object = Object.keys(idsObject).reduce((result, key) => {
-      result[key] = {};
+      const totalRuns = batsmanDeliveries.reduce(
+        (sum, delivery) => sum + parseInt(delivery.batsman_runs),
+        0,
+      );
+      const totalBallsFaced = batsmanDeliveries.length;
 
-      deliveriesData.forEach((obj) => {
-        if (idsObject[key].includes(obj.match_id)) {
-          result[key][obj.batsman] = result[key][obj.batsman] || {
-            runs: 0,
-            balls: 0,
-          };
+      return totalBallsFaced > 0
+        ? ((totalRuns / totalBallsFaced) * 100).toFixed(2)
+        : 0;
+    };
 
-          result[key][obj.batsman].runs += parseInt(obj.batsman_runs);
-          result[key][obj.batsman].balls += 1;
-        }
-      });
+    const seasons = [...new Set(matchesData.map((match) => match.season))];
 
-      for (const batsman in result[key]) {
-        if (result[key].hasOwnProperty(batsman)) {
-          const { runs, balls } = result[key][batsman];
-          result[key][batsman].strikeRate = +(
-            (runs / balls) * 100 || 0
-          ).toFixed(2);
-        }
+    const strikeRatesObject = {};
+    seasons.forEach((season) => {
+      const strikeRate = (strikeRatesObject[season] =
+        calculateStrikeRateForSeason(season));
+      if (strikeRate > 0) {
+        strikeRatesObject[season] = strikeRate;
       }
+    });
 
-      return result;
-    }, {});
+    const filteredBatsmanStrikeRates = Object.fromEntries(
+      Object.entries(strikeRatesObject).filter(([key, value]) => value !== 0),
+    );
+
+    const strikeRate = { [batsman]: filteredBatsmanStrikeRates };
 
     const writeStream = fs.createWriteStream(outputFilePath);
-    writeStream.write(JSON.stringify(object, null, 2));
+    writeStream.write(JSON.stringify(strikeRate, null, 2));
     writeStream.end();
 
     writeStream.on("finish", () => {
@@ -49,7 +54,7 @@ const strikeRateOfABatsmanForEachSeason = () => {
     });
 
     writeStream.on("error", (err) => {
-      throw err; // Pass the error to the catch block
+      throw err;
     });
   } catch (error) {
     console.log("An error occurred during processing:", error.message);
@@ -58,4 +63,4 @@ const strikeRateOfABatsmanForEachSeason = () => {
   }
 };
 
-strikeRateOfABatsmanForEachSeason();
+strikeRateOfABatsmanForEachSeason("V Kohli");
