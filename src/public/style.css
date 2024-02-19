@@ -1,0 +1,42 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+body {
+    background: url('../public/images/Cricket-ground.jpg') center/cover no-repeat;
+    display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+}
+h1:hover {
+    color: rgba(244, 248, 244, 0.805);
+    background: linear-gradient(to right, #ff9933, #fff, #138808);
+    color: #000;
+}
+a {
+    color: rgb(11, 11, 10);
+    display: block;
+    padding: 2px;
+    margin: 2px;
+}
+#linklist {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.left, .right {
+    flex: 1;
+}
+
+.left a, .right a {
+    display: block;
+    padding: 5px;
+    margin-bottom: 5px;
+}
