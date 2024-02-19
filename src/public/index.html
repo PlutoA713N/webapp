@@ -9,26 +9,164 @@
     </head>
     <body>
         <h1>Client web app</h1>
-        <a href='#' id="fetchLink">Fetch Data</a>
-        <div id="donutChartContainer" style="width: 80%; height: 400px; margin: 0 auto;"></div>        
-        <script>
-            const fetchData = async ()  => {
-                try {
-                    const response = await fetch('http://127.0.0.1:8080/timesEachTeamWontheTossAndWonTheMatch.json', {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
 
+        <ul id="linklist">
+            <a href='#' id="Chart_8">timesEachTeamWontheTossAndWonTheMatch</a>
+            <a href='#' id="Chart_1">matchesPerYear</a>
+            <a href='#' id="Chart_2">matchesWonPerTeamPerYear</a>  
+            <a href="#" id="Chart_3">extraRunsConceededPerTeamInTheYear</a>
+            <a href="#" id="Chart_4">top10EconomicalBowlersInTheYear</a>
+            </ul>
+       
+        <div id="container" style="width: 80%; height: 400px; margin: 0 auto;"></div>        
+        <script>
+
+         const linklist = document.getElementById('linklist')
+            
+            linklist.addEventListener('click', (event) => {
+                event.preventDefault();
+                let id = event.target.id
+                fetchAndCatch(event.target.textContent)
+            })
+
+         const fetchAndCatch = async(url) => {
+                try {
+                    const response = await fetch(`http://localhost:3000/${url}.json`, {
+                        method: 'GET'
+                    })
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`)
+                    } else {
+                        const data = await response.json()
+                        eval(`${url}(data)`);
                     }
+                } catch(error) {
+                    console.error('Fetch error:', error)
+                }
+            }
 
-                    const data = await response.json();
-                    console.log('Data is shown when I click on URL:', data);      
+            const matchesPerYear =  (data) => {                              
+                Highcharts.chart('container', {
+                    chart: {
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Matches Per Year',
+                    },
+                    xAxis: {
+                        categories: Object.keys(data),
+                        title: {
+                            text: 'Year'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number of Matches'
+                        }
+                    },
+                    series: [{
+                        name: 'Values',
+                        data: Object.values(data)
+                    }]
+                });
 
-                    Highcharts.chart('donutChartContainer', {
+            }
+
+
+            const matchesWonPerTeamPerYear = (data) => {
+                Highcharts.chart('container', {
+                        chart: {
+                            type: 'bar'
+                        },
+                        title: {
+                            text: 'Matches Won by Teams Each Year'
+                        },
+                        xAxis: {
+                            categories: Object.keys(data),
+                            title: {
+                                text: 'Year'
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Number of Matches'
+                            }
+                        },
+                        plotOptions: {
+                            series: {
+                                stacking: 'normal'
+                            }
+                        },
+                        series: Object.entries(data[Object.keys(data)[0]]).map(([team, wins]) => ({
+                            name: team,
+                            data: Object.keys(data).map(year => data[year][team])
+                        }))
+                    });
+            }
+
+            const extraRunsConceededPerTeamInTheYear = (data) => {
+                const teams = Object.keys(data);
+                    const runsData = Object.values(data);
+
+                    Highcharts.chart('container', {
+                        chart: {
+                            type: 'bar',
+                        },
+                        title: {
+                            text: 'Total Extra Runs for Each Team',
+                        },
+                        xAxis: {
+                            categories: teams,
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Number of Runs',
+                            },
+                        },
+                        plotOptions: {
+                    series: {
+                        colorByPoint: true,
+                        colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#2b908f'],
+                    }
+                },
+                        series: [{
+                            name: 'Extra Runs',
+                            data: runsData,
+                        }],
+                    });
+            }
+
+            const top10EconomicalBowlersInTheYear = (data) => {
+                Highcharts.chart('container', {
+                chart: {
+                    type: 'bar',
+                },
+                title: {
+                    text: 'Top 10 Economical Bowlers in 2015',
+                },
+                xAxis: {
+                    categories: data,
+                },
+                yAxis: {
+                    title: {
+                        text: 'Players',
+                    },
+                },
+                plotOptions: {
+                    series: {
+                        colorByPoint: true,
+                        colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'],
+                    }
+                },
+                series: [{
+                    name: 'Players',
+                    data: data.map(player => ({ name: player, y: 1 })),
+                }],
+            });
+            }
+
+            const timesEachTeamWontheTossAndWonTheMatch = (data)  => {
+                    Highcharts.chart('container', {
                         chart: {
                             type: 'pie',
                             options3d: {
@@ -37,7 +175,7 @@
                             }
                         },
                         title: {
-                            text: 'Number of times WonTheToss&Match'
+                            text: 'Number of times WonTheToss & Match'
                         },
                         plotOptions: {
                             pie: {
@@ -50,17 +188,8 @@
                             data: Object.entries(data).map(([team, value]) => ({ name: team, y: value })),
                         }]
                     });
-
-                } catch (error) {
-                    console.error('Fetch error:', error)
-                }
             }
 
-            const fetchLink = document.getElementById('fetchLink')
-            fetchLink.addEventListener('click', (event) => {
-                event.preventDefault()
-                fetchData()
-            })
         </script>
     </body>
 </html>
