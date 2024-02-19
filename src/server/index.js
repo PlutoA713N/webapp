@@ -1,14 +1,16 @@
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs'); 
-const path = require('path');
 
 const matches = require("../data/matches.json");
 const deliveries = require("../data/deliveries.json");
 const cricketAnalyzer = require('./ipl.js');
 
 const app = express();
-const PORT = 3000;
+console.log(process.env.PORT)
+const PORT = process.env.PORT || 5000;
 
 async function analyzeCricketData() {
     try {
