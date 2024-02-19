@@ -202,7 +202,7 @@
             const playerOfTheMatchAwardsForEachSeason = (data) => {
                 const seasons = Object.keys(data);
 
-
+            console.log(seasons, data)
             Highcharts.chart('container', {
             chart: {
                 type: 'column'
@@ -300,9 +300,6 @@
 const bowlerWithBestEconomy = (bowlerData ) => {
     const bowlerName = Object.keys(bowlerData)[0];
     const bowlerStats = bowlerData[bowlerName];
-
-
-    console.log(bowlerData, bowlerName, bowlerStats)
 
     Highcharts.chart('container', {
         chart: {
