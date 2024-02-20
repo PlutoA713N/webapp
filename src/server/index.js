@@ -34,8 +34,7 @@ const outputDir = path.join(__dirname, '../public/output/');
 app.use(express.static(outputDir));
 
 // Serve Client side
-app.use(express.static('../public/'))
-
+app.use(express.static('../public/index.html'))
 
 
 app.listen(PORT, async () => {
