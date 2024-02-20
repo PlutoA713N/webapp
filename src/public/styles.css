@@ -4,7 +4,7 @@ html, body {
     height: 100%;
 }
 body {
-    background: url('https://webapp-production-3a28.up.railway.app/images/Cricket-ground.jpg') center/cover no-repeat;
+    background: url('https://webapp-production-3a28.up.railway.app/images/ipl-2.jpg') center/cover no-repeat;
     display: flex;
             flex-direction: column;
             align-items: center;
