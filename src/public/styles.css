@@ -18,12 +18,11 @@ h1 {
     color:#0b0000;
 }
 h1:hover , a:hover{
-    color: rgba(244, 248, 244, 0.805);
     background: linear-gradient(to right, #ee8012, #f8f5f5, #14bf04);
     color: #0b0000;
 }
 a {
-    color: rgb(246, 246, 243);
+    color: rgb(14, 201, 218);
     display: block;
     padding: 2px;
     margin: 2px;
