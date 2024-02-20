@@ -33,12 +33,14 @@ app.use(cors());
 const outputDir = path.join(__dirname, '../public/output/');
 app.use(express.static(outputDir));
 
+app.use(express.static(path.join(__dirname, '../public')))
+
 // Serve Client side
-app.get('/', (req, res) => {
-    const indexPath = path.join(__dirname, '../public', 'index.html');
-    res.status(200).sendFile(indexPath);
-    console.log(indexPath)
-});
+// app.get('/', (req, res) => {
+//     const indexPath = path.join(__dirname, '../public', 'index.html');
+//     res.status(200).sendFile(indexPath);
+//     console.log(indexPath)
+// });
 
 
 app.listen(PORT, async () => {
