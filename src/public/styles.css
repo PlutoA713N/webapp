@@ -15,14 +15,14 @@ body {
             overflow: hidden;
 }
 h1 {
-    color:#0b0000;
+    color:#e10e0efa;
 }
 h1:hover , a:hover{
     background: linear-gradient(to right, #ee8012, #f8f5f5, #14bf04);
     color: #0b0000;
 }
 a {
-    color: rgb(14, 201, 218);
+    color: rgb(214, 183, 11);
     display: block;
     padding: 2px;
     margin: 2px;
