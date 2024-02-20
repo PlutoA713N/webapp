@@ -3,7 +3,7 @@ const matches = require("../data/matches.json");
 const deliveries = require("../data/deliveries.json");
 
 const matchesPerYear = (matches) => {
-  const outputFilePath = "/home/chandu/Documents/js-ipl-data-project/src/public/output/matchesPerYear.json";
+  const outputFilePath = "src/public/output/matchesPerYear.json";
 
   try {
     let resultMatchesObject = matches.reduce((accu, match) => {
@@ -35,7 +35,7 @@ const matchesPerYear = (matches) => {
 
 
 const matchesWonPerTeamPerYear = (matches) => {
-    const outputFilePath = "/home/chandu/Documents/js-ipl-data-project/src/public/output/matchesWonPerTeamPerYear.json";
+    const outputFilePath = "src/public/output/matchesWonPerTeamPerYear.json";
   
     try {
       let matchesWonPerTeam = matches.reduce((accu, match) => {
@@ -72,9 +72,7 @@ const matchesWonPerTeamPerYear = (matches) => {
 
   const extraRunsConceededPerTeamInTheYear = (matches, year) => {
     const output = {};
-    const outputFilePath =
-      "/home/chandu/Documents/js-ipl-data-project/src/public/output/extraRunsConceededPerTeamInTheYear.json";
-  
+    const outputFilePath = "src/public/output/extraRunsConceededPerTeamInTheYear.json"  
     try {
       const totalIds = matches
         .filter((match) => +match["season"] === year)
@@ -112,7 +110,7 @@ const matchesWonPerTeamPerYear = (matches) => {
 
 
 const top10EconomicalBowlersInTheYear = (matches, year) => {
-  const outputFilePath = "/home/chandu/Documents/js-ipl-data-project/src/public/output/top10EconomicalBowlersInTheYear.json";
+  const outputFilePath = "src/public/output/top10EconomicalBowlersInTheYear.json";
 
   try {
     const totalIds = matches
@@ -173,7 +171,7 @@ const top10EconomicalBowlersInTheYear = (matches, year) => {
 
 const timesEachTeamWontheTossAndWonTheMatch = (matches) => {
     const outputFilePath =
-      "/home/chandu/Documents/js-ipl-data-project/src/public/output/timesEachTeamWontheTossAndWonTheMatch.json";
+      "src/public/output/timesEachTeamWontheTossAndWonTheMatch.json";
   
     try {
       const wonTossAndMatch = matches.reduce((accu, match) => {
@@ -209,7 +207,7 @@ const timesEachTeamWontheTossAndWonTheMatch = (matches) => {
 
   const playerOfTheMatchAwardsForEachSeason = (matches) => {
     const outputFilePath =
-      "/home/chandu/Documents/js-ipl-data-project/src/public/output/PlayerOfTheMatchAwardsForEachSeason.json"
+      "src/public/output/PlayerOfTheMatchAwardsForEachSeason.json"
     try {
       let playerOfTheMatchPerSeason = matches.reduce((accu, match) => {
         if (match.season in accu) {
@@ -259,9 +257,7 @@ const timesEachTeamWontheTossAndWonTheMatch = (matches) => {
 
 
 const strikeRateOfABatsmanForEachSeason = (batsman, deliveriesData, matchesData) => {
-    const outputFilePath =
-      "/home/chandu/Documents/js-ipl-data-project/src/public/output/strikeRateOfABatsmanForEachSeason.json";
-  
+    const outputFilePath = "src/public/output/strikeRateOfABatsmanForEachSeason.json"  
     try {
       const calculateStrikeRateForSeason = (season) => {
         const batsmanDeliveries = deliveriesData.filter(
@@ -323,9 +319,7 @@ const strikeRateOfABatsmanForEachSeason = (batsman, deliveriesData, matchesData)
   
   const highestTimesPlayerDismissedByAnotherPlayer = (matches) => {
     try {
-      const outputFilePath =
-        "/home/chandu/Documents/js-ipl-data-project/src/public/output/highestTimesPlayerDismissedByAnotherPlayer.json";
-  
+      const outputFilePath = "src/public/output/highestTimesPlayerDismissedByAnotherPlayer.json" 
       const dismissedCounts = {};
   
       for (let i = 0; i < deliveries.length; i++) {
@@ -382,7 +376,7 @@ const strikeRateOfABatsmanForEachSeason = (batsman, deliveriesData, matchesData)
   
   
   const bowlerWithBestEconomy = (matches) => {
-    const outputFilePath = "/home/chandu/Documents/js-ipl-data-project/src/public/output/bowlerWithBestEconomy.json";
+    const outputFilePath = "src/public/output/bowlerWithBestEconomy.json";
   
     try {
       const superOverDeliveries = deliveries.filter(
