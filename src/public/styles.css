@@ -23,12 +23,13 @@ h1:hover , a:hover{
     color: #0b0000;
 }
 a {
-    color: rgb(255, 255, 2);
+    color: rgb(255, 255, 255);
     display: block;
     padding: 2px;
     margin: 2px;
     -webkit-text-stroke: 0.3px black;
-    font-weight: 500;
+    font-weight: 600;
+    text-decoration: none;
 }
 #linklist {
     display: flex;
