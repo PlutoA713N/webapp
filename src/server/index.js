@@ -4,7 +4,6 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs'); 
 
-app.use(cors());
 
 const matches = require("../data/matches.json");
 const deliveries = require("../data/deliveries.json");
@@ -13,6 +12,9 @@ const cricketAnalyzer = require('./ipl.js');
 const app = express();
 console.log(process.env.PORT)
 const PORT = process.env.PORT || 5000;
+
+
+app.use(cors());
 
 async function analyzeCricketData() {
     try {
