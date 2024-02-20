@@ -207,7 +207,7 @@ const timesEachTeamWontheTossAndWonTheMatch = (matches) => {
 
   const playerOfTheMatchAwardsForEachSeason = (matches) => {
     const outputFilePath =
-      "src/public/output/PlayerOfTheMatchAwardsForEachSeason.json"
+      "src/public/output/playerOfTheMatchAwardsForEachSeason.json"
     try {
       let playerOfTheMatchPerSeason = matches.reduce((accu, match) => {
         if (match.season in accu) {
@@ -245,7 +245,7 @@ const timesEachTeamWontheTossAndWonTheMatch = (matches) => {
       });
   
       writeStream.on("error", (err) => {
-        throw err; // Pass the error to the catch block
+        throw err;
       });
     } catch (error) {
       console.log("An error occurred during processing:", error.message);
