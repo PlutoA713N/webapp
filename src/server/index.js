@@ -35,7 +35,8 @@ app.use(express.static(outputDir));
 
 // Serve Client side
 app.get('/', (req, res) => {
-    res.sendFile('src/public/index.html');
+    const indexPath = path.join(__dirname, 'src', 'public', 'index.html');
+    res.sendFile(indexPath);
 });
 
 app.listen(PORT, async () => {
