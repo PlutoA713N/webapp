@@ -34,8 +34,9 @@ const outputDir = path.join(__dirname, '../public/output/');
 app.use(express.static(outputDir));
 
 // Serve Client side
-app.use(express.static('src/public/index.html'))
-
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/'));
+});
 
 app.listen(PORT, async () => {
     console.log(`Server is running on http://localhost:${PORT}`);
