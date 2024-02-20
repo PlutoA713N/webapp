@@ -4,7 +4,7 @@ html, body {
     height: 100%;
 }
 body {
-    background: url('../public/images/Cricket-ground.jpg') center/cover no-repeat;
+    background: url('src/public/images/Cricket-ground.jpg') center/cover no-repeat;
     display: flex;
             flex-direction: column;
             align-items: center;
