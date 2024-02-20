@@ -36,8 +36,10 @@ app.use(express.static(outputDir));
 // Serve Client side
 app.get('/', (req, res) => {
     const indexPath = path.join(__dirname, 'public', 'index.html');
-        res.sendFile(indexPath);
+    res.status(200).sendFile(indexPath);
+    console.log(indexPath)
 });
+
 
 app.listen(PORT, async () => {
     console.log(`Server is running on http://localhost:${PORT}`);
