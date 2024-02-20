@@ -1,0 +1,6 @@
+services:
+  - name: node
+    type: node
+    env:
+      NODE_ENV: production
+    startCommand: "npm start"
