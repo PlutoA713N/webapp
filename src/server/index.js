@@ -34,7 +34,7 @@ const outputDir = path.join(__dirname, '../public/output/');
 app.use(express.static(outputDir));
 
 // Serve Client side
-app.use(express.static('./../'))
+app.use(express.static('../public/'))
 
 app.get('/', (req, res) => {
     res.send('Output files are being served!');
