@@ -30,6 +30,7 @@ a {
     -webkit-text-stroke: 0.3px black;
     font-weight: 600;
     text-decoration: none;
+    opacity: 0.7;
 }
 #linklist {
     display: flex;
