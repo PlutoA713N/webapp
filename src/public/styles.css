@@ -23,11 +23,11 @@ h1:hover , a:hover{
     color: #0b0000;
 }
 a {
-    color: rgba(124, 3, 23, 0.882);
+    color: rgb(255, 255, 2);
     display: block;
     padding: 2px;
     margin: 2px;
-    -webkit-text-stroke: 0.5px black;
+    -webkit-text-stroke: 0.3px black;
     font-weight: 500;
 }
 #linklist {
