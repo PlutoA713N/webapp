@@ -36,9 +36,7 @@ app.use(express.static(outputDir));
 // Serve Client side
 app.use(express.static('../public/'))
 
-app.get('/', (req, res) => {
-    res.send('Output files are being served!');
-});
+
 
 app.listen(PORT, async () => {
     console.log(`Server is running on http://localhost:${PORT}`);
