@@ -1,8 +1,10 @@
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 const express = require('express');
-// const cors = require('cors');
+const cors = require('cors');
 const fs = require('fs'); 
+
+app.use(cors());
 
 const matches = require("../data/matches.json");
 const deliveries = require("../data/deliveries.json");
@@ -28,7 +30,6 @@ async function analyzeCricketData() {
     }
 }
 
-// app.use(cors());
 
 const outputDir = path.join(__dirname, '../public/output/');
 app.use(express.static(outputDir));
