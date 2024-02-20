@@ -35,7 +35,7 @@ app.use(express.static(outputDir));
 
 // Serve Client side
 app.get('/', (req, res) => {
-    const indexPath = path.join(__dirname, 'public', 'index.html');
+    const indexPath = path.join(__dirname, '../public', 'index.html');
     res.status(200).sendFile(indexPath);
     console.log(indexPath)
 });
